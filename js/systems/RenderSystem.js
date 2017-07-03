@@ -10,7 +10,7 @@ export default class RenderSystem extends System{
         this.graphics = new PIXI.Graphics();
         this.stage.addChild(this.graphics);
 
-        document.body.appendChild(this.renderer.view);
+        document.getElementsByClassName('game')[0].appendChild(this.renderer.view);
     }
     update(entities) {
         this.renderer.render(this.stage);

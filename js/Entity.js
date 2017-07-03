@@ -19,4 +19,14 @@ export default class Entity {
     getComponent(component) {
         return this.components[component];
     }
+    getComponentsOfType(type) {
+        return Object.keys(this.components).map((key) => {
+            if(Reflect.getPrototypeOf(this.components[key].constructor) === type) {
+                return this.components[key];
+            }
+        })
+        .filter((component) => {
+            return component !== undefined;
+        });
+    }
 }

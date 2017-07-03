@@ -17,9 +17,10 @@ module.exports = {
         alias: {
             js: path.resolve( __dirname,  'js'),
             assets: path.resolve( __dirname,  'assets'),
-            json: path.resolve( __dirname,  'json')
+            json: path.resolve( __dirname,  'json'),
+            ui: path.resolve( __dirname,  'ui')
         },
-        extensions: ['.js']
+        extensions: ['.js', '.jsx', '.scss']
     },
     module: {
         rules: [
@@ -33,7 +34,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ["es2017"],
+                        presets: ["es2017", "react"],
                         plugins: [
                             'transform-decorators-legacy',
                             'transform-object-rest-spread',
@@ -46,6 +47,14 @@ module.exports = {
             {
                 test: /\.hbs$/,
                 use: 'handlebars-loader'
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
+                ]
             }
         ]
     },

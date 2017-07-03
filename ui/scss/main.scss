@@ -1,0 +1,71 @@
+canvas {
+    width: 500px;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+.game {
+    width: 500px;
+    height: 500px;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+}
+
+$softWhite: #e0e8ee;
+$steelBlue: #4e667a;
+
+.hud {
+    z-index: 1;
+    width: 500px;
+    height: 500px;
+    .interaction-icon {
+        background: $softWhite;
+        padding: .3em;
+        width: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: $steelBlue;
+        border: 1px solid $steelBlue;
+        border-radius: .3em;
+        max-width: 150px;
+        // &:after{
+        //     content: "\2666";
+        // }
+    }
+    .inventory-title {
+        bottom: 6em;
+        padding: .3em;
+        background: rgba(255,255,255,.2);
+        z-index: 1;
+        position: absolute;
+        color: white;
+    }
+    .inventory {
+        height: 5em;
+        bottom: 0;
+        width: 100%;
+        padding: .3em;
+        background: rgba(255,255,255,.2);
+        z-index: 1;
+        position: absolute;
+        .item {
+            width: 4em;
+            height: 4em;
+            float: left;
+            border: 2px solid rgba(255,255,255,.2);
+            margin: .3em;
+            .image {
+                padding: .3em;
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+            &:hover {
+                background: rgba(255,255,255,.2);
+            }
+        }
+    }
+}

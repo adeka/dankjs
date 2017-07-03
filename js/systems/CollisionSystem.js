@@ -32,11 +32,9 @@ export default class CollisionSystem extends System{
                 const col = (collidingEntity.id !== entity.id) && collider.collidesWith(colliding.getHitbox());
                 if(col !== undefined) {
                     collider.collision[col] = col;
-                    // if(col !== false) {
-                    //     console.log(col);
-                    // }
                 }
             });
+
         });
     }
 }

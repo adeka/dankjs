@@ -10,11 +10,15 @@ export default class InputSystem extends System{
         this.getEntitiesWithComponents(entities,
             Components.Input,
             Components.Movement,
-            Components.Collider)
+            Components.Collider,
+            Components.Overlap,
+            Components.Inventory)
         .forEach((entity) => {
             const input = entity.getComponent(Components.Input);
             const movement = entity.getComponent(Components.Movement);
             const collider = entity.getComponent(Components.Collider);
+            const overlap = entity.getComponent(Components.Overlap);
+            const inventory = entity.getComponent(Components.Inventory);
 
             movement.setVelocity(
                 input.getAxisValue('moveHorizontal'),
@@ -22,10 +26,16 @@ export default class InputSystem extends System{
             );
 
             input.onAction('use', () => {
-                console.log('pressed the use button!');
+                const overlapping = overlap.overlappingEntity;
+                if(overlapping) {
+                    overlapping.getComponentsOfType(Components.Interact)
+                    .forEach((component) => {
+                        component.interact(overlapping, entity, entities);
+                    });
+                }
             });
-            input.onAction('attack', () => {
-                console.log('attacking?!');
+            input.onAction('inventory', () => {
+                console.log(inventory);
             });
         });
     }
