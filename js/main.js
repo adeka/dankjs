@@ -59,7 +59,11 @@ const ent = new Entity({
   }
 });
 
+// uncomment to make enemy pickup-able
 const ent2 = new Entity({
+  // Info: {
+  //   name: "Enemy"
+  // },
   Renderer: {
     sprite: "plain.png"
   },
@@ -75,6 +79,11 @@ const ent2 = new Entity({
     height: 50
   },
   Bot: {}
+  // Overlap: {
+  //   width: 70,
+  //   height: 70
+  // },
+  // Pickup: {}
 });
 
 const ent3 = new Entity({
