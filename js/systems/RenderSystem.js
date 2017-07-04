@@ -13,7 +13,10 @@ export default class RenderSystem extends System{
         document.getElementsByClassName('game')[0].appendChild(this.renderer.view);
     }
     update(entities) {
+
         this.renderer.render(this.stage);
+        this.stage.removeChildren();
+        this.stage.addChild(this.graphics);
         this.graphics.clear();
 
         this.getEntitiesWithComponents(entities,

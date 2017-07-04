@@ -1,5 +1,6 @@
 import * as Components from 'js/Components';
 import * as Utils from 'js/Utils';
+import GameManager from "js/GameManager";
 
 export default class Entity {
     components = {};
@@ -7,6 +8,7 @@ export default class Entity {
         this.args = args;
         this.id = Utils.generateUUID();
         Object.entries(args).forEach((component) => this.addComponent(component[0], component[1]));
+        GameManager.addEntity(this);
     }
     addComponent(name, args) {
         const componentClass = Components[name];

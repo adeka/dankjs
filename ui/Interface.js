@@ -4,6 +4,6 @@ export default class Interface {
     @observable static store = {
         items: [],
         equipment: {},
-        useIndicator: {}
+        useIndicator: null
     };
 }
