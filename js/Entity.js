@@ -8,7 +8,6 @@ export default class Entity {
         this.args = args;
         this.id = Utils.generateUUID();
         Object.entries(args).forEach((component) => this.addComponent(component[0], component[1]));
-        GameManager.addEntity(this);
     }
     addComponent(name, args) {
         const componentClass = Components[name];

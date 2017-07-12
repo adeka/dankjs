@@ -1,14 +1,15 @@
 const PIXI = require("pixi.js");
 require("ui/scss/main.scss");
 
-// react for ui stuff
 import React from "react";
 import ReactDOM from "react-dom";
 import HUD from "ui/components/HUD";
-import GameManager from "js/GameManager";
-import { entities } from "json/Entities";
-let paused = false;
 
+import GameManager from "js/GameManager";
+import Entity from "js/Entity";
+import { entities } from "json/Entities";
+
+let paused = false;
 GameManager.init(entities);
 
 (function update() {

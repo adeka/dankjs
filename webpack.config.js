@@ -67,7 +67,8 @@ module.exports = {
             chunks: false,
             chunkModules: false,
             children: false,
-            modules: false
+            modules: false,
+            warnings: false
         }
     },
     plugins: [

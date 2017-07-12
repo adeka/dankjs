@@ -35,7 +35,8 @@ export default class InputSystem extends System{
                 }
             });
             input.onAction('inventory', () => {
-                console.log(inventory);
+                console.log(overlap.overlappingEntity);
+                console.log(this.getEntitiesWithComponents(entities, Components.Overlap));
             });
         });
     }

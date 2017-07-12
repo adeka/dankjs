@@ -7,22 +7,26 @@ import OverlapSystem from "js/systems/OverlapSystem";
 import BotSystem from "js/systems/BotSystem";
 import InterfaceSystem from "js/systems/InterfaceSystem";
 import Entity from "js/Entity";
+import Map from "js/Map";
 
 export default class GameManager {
+    static map;
     static entities = [];
-    static systems = [
-     new InputSystem(),
-     new CollisionSystem(),
-     new OverlapSystem(),
-     new RenderSystem(),
-     new MovementSystem(),
-     new BotSystem(),
-     new InterfaceSystem()
-    ];
+    static systems = [];
     static init(entities) {
+        this.systems = [
+            new CollisionSystem(),
+            new MovementSystem(),
+            new InputSystem(),
+            new OverlapSystem(),
+            new RenderSystem(),
+            new BotSystem(),
+            new InterfaceSystem()
+        ];
         Object.entries(entities).forEach((entity) => {
-            new Entity(entity[1]);
+            this.addEntity(new Entity(entity[1]));
         });
+        this.map = new Map();
     }
     static addEntity(entity){
         GameManager.entities.push(entity);
@@ -32,9 +36,10 @@ export default class GameManager {
             return entity.id !== removedEntity.id;
         });
     }
-    static update(entities){
+    static update(){
+        const entities = [...this.map.getActiveTiles(this.entities), ...this.entities];
         this.systems.forEach((system) => {
-            system.update(this.entities);
+            system.update(entities);
         });
     }
 }

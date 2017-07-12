@@ -18,28 +18,24 @@ export default class OverlapSystem extends System{
                 position.x,
                 position.y
             );
-
-            if(!this.checkOverlap(entities, entity, overlap)) {
+            if(overlap.dynamic && !this.checkOverlap(entities, entity, overlap)) {
                 overlap.overlappingEntity = null;
             }
         });
     }
     checkOverlap(entities, entity, overlap){
         return this.getEntitiesWithComponents(entities,
-            Components.Overlap,
-            Components.Input)
-        .every((overlappingEntity) => {
-            const overlapping = overlappingEntity.getComponent(Components.Overlap);
-
-            const overlapResult =
-                (overlappingEntity.id !== entity.id)
-                && overlap.overlapsWith(overlapping.getHitbox());
-
-            if(overlapResult) {
-                overlapping.overlappingEntity = entity;
+            Components.Overlap)
+        .reduce((sum, overlappingEntity) => {
+            let overlapResult = false;
+            if(overlappingEntity.id !== entity.id) {
+                const overlapping = overlappingEntity.getComponent(Components.Overlap);
+                overlapResult = overlap.overlapsWith(overlapping.getHitbox());
+                if(overlapResult) {
+                    overlap.overlappingEntity = overlappingEntity;
+                }
             }
-
-            return overlapResult;
-        })
+            return sum || overlapResult;
+        }, false)
     }
 }

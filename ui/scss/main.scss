@@ -1,24 +1,25 @@
+$canvasSize: 750px;
+$softWhite: #e0e8ee;
+$steelBlue: #4e667a;
+
 canvas {
-    width: 500px;
+    width: $canvasSize;
     position: absolute;
     top: 0;
     z-index: -1;
 }
 .game {
-    width: 500px;
-    height: 500px;
+    width: $canvasSize;
+    height: $canvasSize;
     z-index: 0;
     position: absolute;
     top: 0;
 }
 
-$softWhite: #e0e8ee;
-$steelBlue: #4e667a;
-
 .hud {
     z-index: 1;
-    width: 500px;
-    height: 500px;
+    width: $canvasSize;
+    height: $canvasSize;
     .interaction-icon {
         background: $softWhite;
         padding: .3em;

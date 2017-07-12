@@ -1,0 +1,57 @@
+{
+    "center": {
+        "present": ["center"],
+        "missing": []
+    },
+
+    "bottom" : {
+        "present": ["center", "left", "right", "top"],
+        "missing": ["bottom"]
+    },
+    "top": {
+        "present": ["center", "left", "right", "bottom"],
+        "missing": ["top"]
+    },
+    "left": {
+        "present": ["center", "top", "bottom", "right"],
+        "missing": ["left"]
+    },
+    "right": {
+        "present": ["center", "top", "bottom", "left"],
+        "missing": ["right"]
+    },
+
+    "top-left": {
+        "present": ["center", "right", "bottom", "bottomRight"],
+        "missing": ["top", "left"]
+    },
+    "top-right": {
+        "present": ["center", "left", "bottom", "bottomLeft"],
+        "missing": ["right", "top"]
+    },
+    "bottom-left": {
+        "present": ["center", "right", "top", "topRight"],
+        "missing": ["left", "bottom"]
+    },
+    "bottom-right": {
+        "present": ["center", "left", "top", "topLeft"],
+        "missing": ["right", "bottom"]
+    },
+
+    "corner-top-left": {
+        "present": ["center", "bottom", "right"],
+        "missing": ["bottomRight"]
+    },
+    "corner-top-right": {
+        "present": ["center", "bottom", "left"],
+        "missing": ["bottomLeft"]
+    },
+    "corner-bottom-left": {
+        "present": ["center", "top", "right"],
+        "missing": ["topRight"]
+    },
+    "corner-bottom-right": {
+        "present": ["center", "top", "left"],
+        "missing": ["topLeft"]
+    }
+}

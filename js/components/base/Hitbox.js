@@ -1,10 +1,10 @@
 import Bump from 'bump.js';
-const PIXI = require('pixi.js');
 
 export default class Hitbox {
     rect = {};
     constructor() {
         this.bump = new Bump(PIXI);
+        this.dynamic = false;
     }
     getRect(width, height) {
         return {

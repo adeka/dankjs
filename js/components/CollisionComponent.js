@@ -9,9 +9,10 @@ export default class CollisionComponent extends Hitbox {
     }
     constructor(args) {
         super();
+        this.dynamic = args.dynamic || false;
         this.rect = this.getRect(args.width, args.height);
     }
     collidesWith(collider) {
-        return this.bump.rectangleCollision(this.rect, collider);
+        return this.bump.rectangleCollision(this.rect, collider, true);
     }
 }
