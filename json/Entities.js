@@ -8,11 +8,12 @@ export const entities = {
             size: {
                 width: 64,
                 height: 64
-            }
+            },
+            dynamic: true
         },
         Position: {
-            x: 3200,
-            y: 3200
+            x: 1600,
+            y: 1600
         },
         Inventory: {},
         Input: {
@@ -36,14 +37,21 @@ export const entities = {
             speed: 3
         },
         Collider: {
-            width: 64,
-            height: 64,
-            dynamic: true
+            width: 32,
+            height: 32,
+            dynamic: true,
+            offset: {
+                x: 0,
+                y: 20
+            }
         },
         Overlap: {
             width: 80,
             height: 80,
             dynamic: true
+        },
+        StateMachine: {
+
         }
     },
     // enemy: {

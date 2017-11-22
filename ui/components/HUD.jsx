@@ -38,9 +38,6 @@ export default @observer class HUD extends React.Component {
         return (
             <div className="hud">
                 {this.getInteractionIcon()}
-                <div className="inventory-title">
-                    INVENTORY
-                </div>
                 <div className="inventory">
                     {this.getInventoryItems()}
                 </div>

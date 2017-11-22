@@ -11,6 +11,7 @@ import InteractComponent from 'js/components/base/InteractComponent';
 import PickupComponent from 'js/components/PickupComponent';
 
 import InfoComponent from 'js/components/InfoComponent';
+import StateMachineComponent from 'js/components/StateMachineComponent';
 
 export const Renderer = RenderComponent;
 export const Position = PositionComponent;
@@ -25,3 +26,4 @@ export const Interact = InteractComponent;
 export const Pickup = PickupComponent;
 
 export const Info = InfoComponent;
+export const StateMachine = StateMachineComponent;

@@ -11,6 +11,9 @@ export default class CollisionComponent extends Hitbox {
         super();
         this.dynamic = args.dynamic || false;
         this.rect = this.getRect(args.width, args.height);
+        if(args.offset) {
+            this.offset = args.offset;
+        }
     }
     collidesWith(collider) {
         return this.bump.rectangleCollision(this.rect, collider, true);

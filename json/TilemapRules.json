@@ -1,57 +1,167 @@
 {
-    "center": {
-        "present": ["center"],
-        "missing": []
-    },
+    "ground": {
+        "center": {
+            "present": ["center"],
+            "missing": []
+        },
 
-    "bottom" : {
-        "present": ["center", "left", "right", "top"],
-        "missing": ["bottom"]
-    },
-    "top": {
-        "present": ["center", "left", "right", "bottom"],
-        "missing": ["top"]
-    },
-    "left": {
-        "present": ["center", "top", "bottom", "right"],
-        "missing": ["left"]
-    },
-    "right": {
-        "present": ["center", "top", "bottom", "left"],
-        "missing": ["right"]
-    },
+        "bottom" : {
+            "present": ["center", "left", "right", "top"],
+            "missing": ["bottom"],
+            "collider": {
+                "width": 48,
+                "height": 16
+            }
+        },
+        "top": {
+            "present": ["center", "left", "right", "bottom"],
+            "missing": ["top"],
+            "collider": {
+                "width": 48,
+                "height": 16
+            },
+            "offset": {
+                "x": 0,
+                "y": -16
+            }
+        },
+        "left": {
+            "present": ["center", "top", "bottom", "right"],
+            "missing": ["left"],
+            "collider": {
+                "width": 16,
+                "height": 48
+            },
+            "offset": {
+                "x": -16,
+                "y": 0
+            }
+        },
+        "right": {
+            "present": ["center", "top", "bottom", "left"],
+            "missing": ["right"],
+            "collider": {
+                "width": 16,
+                "height": 48
+            },
+            "offset": {
+                "x": 16,
+                "y": 0
+            }
+        },
 
-    "top-left": {
-        "present": ["center", "right", "bottom", "bottomRight"],
-        "missing": ["top", "left"]
-    },
-    "top-right": {
-        "present": ["center", "left", "bottom", "bottomLeft"],
-        "missing": ["right", "top"]
-    },
-    "bottom-left": {
-        "present": ["center", "right", "top", "topRight"],
-        "missing": ["left", "bottom"]
-    },
-    "bottom-right": {
-        "present": ["center", "left", "top", "topLeft"],
-        "missing": ["right", "bottom"]
-    },
 
-    "corner-top-left": {
-        "present": ["center", "bottom", "right"],
-        "missing": ["bottomRight"]
+        "corner-top-left": {
+            "present": ["center", "bottom", "right"],
+            "missing": ["bottomRight"],
+            "collider": {
+                "width": 16,
+                "height": 16
+            },
+            "offset": {
+                "x": 16,
+                "y": 16
+            }
+        },
+        "corner-top-right": {
+            "present": ["center", "bottom", "left"],
+            "missing": ["bottomLeft"],
+            "collider": {
+                "width": 16,
+                "height": 16
+            },
+            "offset": {
+                "x": -16,
+                "y": 16
+            }
+        },
+        "corner-bottom-left": {
+            "present": ["center", "top", "right"],
+            "missing": ["topRight"],
+            "collider": {
+                "width": 16,
+                "height": 16
+            },
+            "offset": {
+                "x": 16,
+                "y": -16
+            }
+        },
+        "corner-bottom-right": {
+            "present": ["center", "top", "left"],
+            "missing": ["topLeft"],
+            "collider": {
+                "width": 16,
+                "height": 16
+            },
+            "offset": {
+                "x": -16,
+                "y": -16
+            }
+        },
+
+
+        "top-left": {
+            "present": ["center", "right", "bottom", "bottomRight"],
+            "missing": ["top", "left"],
+            "collider": {
+                "width": 16,
+                "height": 16
+            },
+            "offset": {
+                "x": 16,
+                "y": 16
+            }
+        },
+        "top-right": {
+            "present": ["center", "left", "bottom", "bottomLeft"],
+            "missing": ["right", "top"],
+            "collider": {
+                "width": 16,
+                "height": 16
+            },
+            "offset": {
+                "x": -16,
+                "y": 16
+            }
+        },
+        "bottom-left": {
+            "present": ["center", "right", "top", "topRight"],
+            "missing": ["left", "bottom"],
+            "collider": {
+                "width": 16,
+                "height": 16
+            },
+            "offset": {
+                "x": 16,
+                "y": -16
+            }
+        },
+        "bottom-right": {
+            "present": ["center", "left", "top", "topLeft"],
+            "missing": ["right", "bottom"],
+            "collider": {
+                "width": 16,
+                "height": 16
+            },
+            "offset": {
+                "x": -16,
+                "y": -16
+            }
+        }
     },
-    "corner-top-right": {
-        "present": ["center", "bottom", "left"],
-        "missing": ["bottomLeft"]
-    },
-    "corner-bottom-left": {
-        "present": ["center", "top", "right"],
-        "missing": ["topRight"]
-    },
-    "corner-bottom-right": {
-        "present": ["center", "top", "left"],
-        "missing": ["topLeft"]
+    "trees": {
+        "tall": {
+            "present": ["center"],
+            "missing": [],
+            "collider": {
+                "width": 16,
+                "height": 16
+            },
+            "offset": {
+                "x": 0,
+                "y": 40
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-$canvasSize: 750px;
+$canvasSize: 700px;
 $softWhite: #e0e8ee;
 $steelBlue: #4e667a;
 
@@ -37,17 +37,17 @@ canvas {
     }
     .inventory-title {
         bottom: 6em;
-        padding: .3em;
+        padding: .1em;
         background: rgba(255,255,255,.2);
         z-index: 1;
         position: absolute;
         color: white;
     }
     .inventory {
-        height: 5em;
+        height: 3em;
         bottom: 0;
         width: 100%;
-        padding: .3em;
+        padding: .1em;
         background: rgba(255,255,255,.2);
         z-index: 1;
         position: absolute;
@@ -56,9 +56,9 @@ canvas {
             height: 4em;
             float: left;
             border: 2px solid rgba(255,255,255,.2);
-            margin: .3em;
+            margin: .1em;
             .image {
-                padding: .3em;
+                padding: .1em;
                 img {
                     width: 100%;
                     height: auto;

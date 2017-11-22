@@ -15,7 +15,6 @@ export default class CollisionSystem extends System{
             const position = entity.getComponent(Components.Position);
             const movement = entity.getComponent(Components.Movement);
 
-
             collider.collision = {
                 top: false,
                 left: false,

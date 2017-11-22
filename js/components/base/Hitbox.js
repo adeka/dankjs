@@ -5,6 +5,7 @@ export default class Hitbox {
     constructor() {
         this.bump = new Bump(PIXI);
         this.dynamic = false;
+        this.offset = {x: 0, y: 0};
     }
     getRect(width, height) {
         return {
@@ -18,8 +19,8 @@ export default class Hitbox {
         };
     }
     setPosition(x,y) {
-        this.rect.x = x - this.rect.width / 2;
-        this.rect.y = y - this.rect.height / 2;
+        this.rect.x = x - this.rect.width / 2 + this.offset.x;
+        this.rect.y = y - this.rect.height / 2 + this.offset.y;
     }
     getHitbox() {
         return this.rect;

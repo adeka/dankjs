@@ -10,7 +10,6 @@ export default class RenderSystem extends System{
         this.renderer = new PIXI.WebGLRenderer(750, 750);
         this.renderer.backgroundColor = 0x204253;
         this.stage = new PIXI.Container();
-        this.map = new PIXI.Container();
         this.graphics = new PIXI.Graphics();
 
         // this.stage.scale.x = .058;
@@ -32,6 +31,18 @@ export default class RenderSystem extends System{
 
         this.updateCamera(entities);
 
+        // entities.sort((a,b) => {
+        //     const aPosition = a.getComponent(Components.Position);
+        //     const bPosition = b.getComponent(Components.Position);
+        //     if(aPosition && bPosition) {
+        //         if (aPosition.y > bPosition.y) return 1;
+        //         if (aPosition.y < bPosition.y) return -1;
+        //         if (aPosition.x > bPosition.x) return 1;
+        //         if (aPosition.x < bPosition.x) return -1;
+        //     }
+        //     return 0;
+        // });
+
         this.getEntitiesWithComponents(entities,
             Components.Renderer,
             Components.Position)
@@ -42,8 +53,12 @@ export default class RenderSystem extends System{
             const sprite = renderer.sprite;
             sprite.x = position.x;
             sprite.y = position.y;
+            sprite.zOrder = position.y;
 
             this.stage.addChild(sprite);
+
+            // if(renderer.dynamic) {
+            // }
 
             const collider = entity.getComponent(Components.Collider);
             if(collider) {

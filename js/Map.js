@@ -1,38 +1,63 @@
 import * as Components from 'js/Components';
 import FastSimplexNoise from 'fast-simplex-noise';
-const noiseGen = new FastSimplexNoise({ frequency: 0.05, max: 100, min: 0, octaves: 3 });
+const groundNoise = new FastSimplexNoise({ frequency: 0.05, max: 100, min: 0, octaves: 3 });
+const treesNoise = new FastSimplexNoise({ frequency: 0.1, max: 100, min: 0, octaves: 3 });
+
 const tilemapRules = require('json/TilemapRules.json');
 import Entity from "js/Entity";
 import System from 'js/systems/System';
 
-export default class Map extends System{
+export default class Map extends System {
     constructor() {
         super();
+
         this.mapWidth = 100;
         this.mapHeight = 100;
         this.tileSize = 64;
-        this.tiles = [];
 
-        let noiseMap = this.generateNoiseMap();
-        const threshold = 35;
+        this.entities = {
+            tiles: [],
+            // tiles2: [],
+            trees: []
+        };
 
-        this.runPruningIterations(noiseMap, 10, threshold);
-        this.createTiles(noiseMap, threshold);
+        const groundThreshold = 35;
+        const groundThreshold2 = 60;
+        const treesThreshold = 70;
+
+        let groundMap = this.generateNoiseMap(groundNoise);
+        let groundMap2 = this.generateNoiseMap(groundNoise);
+        let treesMap = this.generateNoiseMap(treesNoise);
+
+        this.runPruningIterations(groundMap, 20, groundThreshold);
+        this.runPruningIterations(groundMap2, 20, groundThreshold2);
+
+        treesMap.forEach((tile, i) => {
+            if(groundMap[i].value < groundThreshold + 10) {
+                tile.value = 0;
+            }
+        });
+
+        this.createMapEntities(groundMap, groundThreshold, this.entities.tiles, "ground");
+        // this.createMapEntities(groundMap2, groundThreshold2, this.entities.tiles2, "ground");
+        this.createMapEntities(treesMap, treesThreshold, this.entities.trees, "trees");
     }
-    getActiveTiles(entities) {
-        let activeTiles;
+    getActiveEntities(entities) {
+        let activeTiles = [];
         this.getEntitiesWithComponents(entities, Components.Input)
         .forEach((entity) => {
             const position = entity.getComponent(Components.Position);
-            activeTiles = this.getBoundingTiles(position.x, position.y, 10);
+            activeTiles.push(...this.getBoundingEntities(position.x, position.y, 3, this.entities.tiles));
+            // activeTiles.push(...this.getBoundingEntities(position.x, position.y, 10, this.entities.tiles2));
+            activeTiles.push(...this.getBoundingEntities(position.x, position.y, 3, this.entities.trees));
         });
         return activeTiles;
     }
     coordToIndex(x, y) {
         return ((y - 1) * this.mapWidth) + x;
     }
-    getBoundingTiles(rawX, rawY, size) {
-        const boundingTiles = [];
+    getBoundingEntities(rawX, rawY, size, layer) {
+        const entities = [];
 
         const x = Math.floor(rawX / this.tileSize);
         const y = Math.floor(rawY / this.tileSize);
@@ -41,17 +66,17 @@ export default class Map extends System{
             for (let xOff = 0; xOff < size * 2; xOff++)
             {
                 const index = this.coordToIndex(x - Math.round(size/2) - 1 + xOff, y - Math.round(size/2) + yOff);
-                const tile = this.tiles[index];
+                const tile = layer[index];
                 if(tile) {
-                    boundingTiles.push(tile);
+                    entities.push(tile);
                 }
             }
         }
-        return boundingTiles;
+        return entities;
     }
-    getTileSprite(map, tile, path) {
+    getEntitySprite(map, tile, type) {
         let tileEntity = null;
-        Object.entries(tilemapRules).forEach((entry) => {
+        Object.entries(tilemapRules[type]).forEach((entry) => {
             const tileType = entry[0];
             const rules = entry[1];
             const presentRulesPass = rules.present.every((rule) => {
@@ -61,34 +86,39 @@ export default class Map extends System{
                 return !map[rule];
             });
             if(presentRulesPass && missingRulesPass) {
-                const entity = {
-                    Renderer: {
-                        sprite: `${path}/${tileType}.png`,
-                        size: {
-                            width: 64,
-                            height: 64
-                        }
-                    },
-                    Position: {
-                        x: tile.x * this.tileSize,
-                        y: tile.y * this.tileSize
-                    }
-                };
-                if(tileType !== 'center') {
-                    entity['Collider'] = {
-                        width: 16,
-                        height:16
-                    };
-                }
-                tileEntity = new Entity(entity);
+                tileEntity = this.createTileEntity(tile, tileType, type, rules.offset, rules.collider);
             }
         });
         return tileEntity;
     }
-    createTiles(noiseMap, threshold) {
+    createTileEntity(tile, tileType, type, offset, collider) {
+        const entity = {
+            Renderer: {
+                sprite: `${type}/${tileType}.png`,
+                scale: {
+                    x: 0.5,
+                    y: 0.5
+                }
+            },
+            Position: {
+                x: tile.x * this.tileSize,
+                y: tile.y * this.tileSize
+            }
+        };
+
+        if(collider) {
+            const colliderComponent = collider;
+            if(offset) {
+                colliderComponent['offset'] = offset;
+            }
+            entity['Collider'] = colliderComponent;
+        }
+        return new Entity(entity);
+    }
+    createMapEntities(noiseMap, threshold, list, type) {
         noiseMap.forEach((tile, index) => {
             const map = this.getNeighbors(noiseMap, index, threshold);
-            this.tiles.push(this.getTileSprite(map, tile, 'grass'));
+            list.push(this.getEntitySprite(map, tile, type));
         });
     }
     runPruningIterations(noiseMap, iterations, threshold) {
@@ -117,34 +147,23 @@ export default class Map extends System{
     getNeighbors(map, i, threshold) {
         const defaultValue = {value: 0, x: 0, y: 0};
         const width = this.mapWidth;
-
-        const topLeft = map[i-width-1] || defaultValue;
-        const top = map[i-width] || defaultValue;
-        const topRight = map[i-width+1] || defaultValue;
-        const left = map[i-1] || defaultValue;
-        const center = map[i] || defaultValue;
-        const right = map[i+1] || defaultValue;
-        const bottomLeft = map[i+width-1] || defaultValue;
-        const bottom = map[i+width] || defaultValue;
-        const bottomRight = map[i+width+1] || defaultValue;
-
         return {
-            topLeft: (topLeft.value > threshold),
-            top: (top.value > threshold),
-            topRight: (topRight.value > threshold),
-            left: (left.value > threshold),
-            center: (center.value > threshold),
-            right: (right.value > threshold),
-            bottomLeft: (bottomLeft.value > threshold),
-            bottom: (bottom.value > threshold),
-            bottomRight: (bottomRight.value > threshold)
+            topLeft: ((map[i-width-1] || defaultValue).value > threshold),
+            top: ((map[i-width] || defaultValue).value > threshold),
+            topRight: ((map[i-width+1] || defaultValue).value > threshold),
+            left: ((map[i-1] || defaultValue).value > threshold),
+            center: ((map[i] || defaultValue).value > threshold),
+            right: ((map[i+1] || defaultValue).value > threshold),
+            bottomLeft: ((map[i+width-1] || defaultValue).value > threshold),
+            bottom: ((map[i+width] || defaultValue).value > threshold),
+            bottomRight: ((map[i+width+1] || defaultValue).value > threshold)
         }
     }
-    generateNoiseMap() {
+    generateNoiseMap(noiseFunction) {
         const noiseMap = [];
         for(let y = 0; y < this.mapWidth; y++){
             for(let x = 0; x < this.mapHeight; x++){
-                const noise = noiseGen.scaled([x, y]);
+                const noise = noiseFunction.scaled([x, y]);
                 noiseMap.push({value: noise, x: x, y: y});
             }
         }

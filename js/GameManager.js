@@ -37,7 +37,7 @@ export default class GameManager {
         });
     }
     static update(){
-        const entities = [...this.map.getActiveTiles(this.entities), ...this.entities];
+        const entities = [...this.map.getActiveEntities(this.entities), ...this.entities];
         this.systems.forEach((system) => {
             system.update(entities);
         });
